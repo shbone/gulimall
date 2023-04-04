@@ -16,6 +16,11 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+    <modules>
+        <module>gulimall-product</module>
+        <module>gulimall-coupon</module>
+        <module>gulimall-coupon</module>
+    </modules>
 
     <build>
         <plugins>

@@ -29,5 +29,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
+**/mvnw
+**/mvnw.cmd
+**/target
+**/.gitignore
 ### VS Code ###
 .vscode/
