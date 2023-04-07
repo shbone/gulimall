@@ -1,18 +1,18 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.113.146.180:3306/gulimall-sms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
-  cloud:
-    nacos:
-      discovery:
-        enabled: true
-        server-addr: 47.113.146.180:8848
-  application:
-    name: gulimall-coupon
-mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml
-  global-config:
-    db-config:
-      id-type: auto
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://47.113.146.180:3306/gulimall-sms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 123456
+#  cloud:
+#    nacos:
+#      discovery:
+#        enabled: true
+#        server-addr: 47.113.146.180:8848
+#  application:
+#    name: gulimall-coupon
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml
+#  global-config:
+#    db-config:
+#      id-type: auto
