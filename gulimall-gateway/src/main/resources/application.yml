@@ -14,3 +14,13 @@ spring:
           uri: https://blog.csdn.net
           predicates:
             - Path=/common
+        - id: renren-fast
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/renren
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*),/renren-fast$\{segment}
