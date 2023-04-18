@@ -18,12 +18,20 @@ spring:
           uri: http://localhost:8082/
           predicates:
             - Path=/renren
+
+        - id: product_route
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*) , /$\{segment}
         - id: admin_route
           uri: lb://renren-fast
           predicates:
             - Path=/api/**
           filters:
             - RewritePath=/api(?<segment>/?.*) , /renren-fast$\{segment}
+
     loadbalancer:
       ribbon:
         enabled: false
