@@ -8,6 +8,7 @@ spring:
     nacos:
       discovery:
         server-addr: 47.113.146.180:8848
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
@@ -21,3 +22,9 @@ server:
 logging:
   level:
     com.example.gulimall.product: debug
+alibaba:
+  cloud:
+    access-key: LTAI5tAK93gtTvxB8fb7Qsp4
+    secret-key: qfqciGWxG7zfnguX3UcLzlLvg4NBCJ
+    oss:
+      endpoint: oss-cn-zhangjiakou.aliyuncs.com

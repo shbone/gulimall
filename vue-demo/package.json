@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@vue/cli-init": "^5.0.8",
+    "webpack": "^5.79.0"
+  }
+}
