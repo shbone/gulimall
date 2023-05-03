@@ -1,9 +1,8 @@
 package com.example.gulimall.product;
 
 
-//import com.aliyun.oss.ClientException;
-//import com.aliyun.oss.OSSClient;
-//import com.aliyun.oss.OSSException;
+
+import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
 import org.checkerframework.checker.units.qual.A;

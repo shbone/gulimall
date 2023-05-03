@@ -85,11 +85,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>2.2.6.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>aliyun-oss-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+
 
 
 
