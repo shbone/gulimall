@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
+
+import javax.validation.constraints.*;
 
 /**
  * 品牌
@@ -27,10 +30,12 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌名
 	 */
+	@NotBlank(message = "不满足名字的命名规则")
 	private String name;
 	/**
 	 * 品牌logo地址
 	 */
+	@URL(message = "logo必须是一个合法的url地址")
 	private String logo;
 	/**
 	 * 介绍
@@ -43,10 +48,13 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 检索首字母
 	 */
+	@NotNull
+	@Pattern(regexp = "/^[a-zA-Z]$/",message = "必须是a-z或者A-Z")
 	private String firstLetter;
 	/**
 	 * 排序
 	 */
+	@Min(value = 0,message = "需要大于等于0")
 	private Integer sort;
 
 }
