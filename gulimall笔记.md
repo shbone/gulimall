@@ -33,3 +33,16 @@
 统一的异常处理：
 1. `@ControllerAdvice` 编写异常处理
 2. 使用`@ExceptionHandler`标注方法标出可以处理的异常
+
+
+## 2023-05-07 
+### 前端
+父子组件传递信息：
+1. 事件机制：子组件给父组件发送一个事件，携带信息
+2. 给父节点发送事件  this.$emit("tree-node-click",data,node,component)
+
+### 后端
+分页查询，mybatisplus 自带
+IPage<T> page(IPage<T> page, Wrapper<T> queryWrapper);  
+`page`：翻页对象 `queryWrapper`：实体对象封装操作类 QueryWrapper,筛选数据
+  
