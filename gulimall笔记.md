@@ -45,4 +45,9 @@
 分页查询，mybatisplus 自带
 IPage<T> page(IPage<T> page, Wrapper<T> queryWrapper);  
 `page`：翻页对象 `queryWrapper`：实体对象封装操作类 QueryWrapper,筛选数据
-  
+
+## 2023-05-14
+### 配置Redis
+1. 引用data-redis-starter
+2. yml简单配置host等信息
+3. springboot自动配置好的stringredistemplate来操作redis
