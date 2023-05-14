@@ -53,6 +53,22 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         baseMapper.deleteBatchIds(asList);
     }
 
+    /**
+     * 查询一级分类
+     * 父级ID为0，或者层级为1
+     *
+     *  * Mapper 继承该接口后，无需编写 mapper.xml 文件，即可获得CRUD功能
+     *  * 这个 Mapper 支持 id 泛型
+     * @return
+     */
+    @Override
+    public List<CategoryEntity> getLevel1Categorys() {
+
+        System.out.println("调用了 getLevel1Categorys  查询了数据库........【一级分类】");
+        baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid",0));
+        return null;
+    }
+
     List<CategoryEntity>  getChildrens(CategoryEntity root, List<CategoryEntity> all){
         List<CategoryEntity> children=all.stream().filter(categoryEntity -> {
             return categoryEntity.getParentCid().equals(root.getCatId()) ;

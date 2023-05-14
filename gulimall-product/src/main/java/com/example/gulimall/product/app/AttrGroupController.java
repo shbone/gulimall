@@ -1,4 +1,4 @@
-package com.example.gulimall.product.controller;
+package com.example.gulimall.product.app;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -14,8 +14,6 @@ import com.example.gulimall.product.entity.AttrGroupEntity;
 import com.example.gulimall.product.service.AttrGroupService;
 import com.example.common.utils.PageUtils;
 import com.example.common.utils.R;
-
-import javax.ws.rs.Path;
 
 
 /**
