@@ -65,8 +65,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public List<CategoryEntity> getLevel1Categorys() {
 
         System.out.println("调用了 getLevel1Categorys  查询了数据库........【一级分类】");
-        baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid",0));
-        return null;
+        return baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid",0));
+//        return null;
     }
 
     List<CategoryEntity>  getChildrens(CategoryEntity root, List<CategoryEntity> all){
