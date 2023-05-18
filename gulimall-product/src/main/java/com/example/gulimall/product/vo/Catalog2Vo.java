@@ -11,6 +11,9 @@ import java.util.List;
  * @createTime: 2023/05/18 下午12:58
  * @description:
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Catalog2Vo {
     private String catalog1Id;  // 1级父分类ID
     private List<Catalog3Vo> catalog3List;// 3级子分类集合

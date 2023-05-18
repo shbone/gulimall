@@ -1,6 +1,6 @@
 $(function(){
     $.getJSON("index/json/catalog.json",function (data) {
-
+        console.log("data",data);
         var ctgall=data;
         $(".header_main_left_a").each(function(){
             var ctgnums= $(this).attr("ctg-data");
