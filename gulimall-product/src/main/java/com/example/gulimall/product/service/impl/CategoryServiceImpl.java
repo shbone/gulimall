@@ -1,5 +1,6 @@
 package com.example.gulimall.product.service.impl;
 
+import com.example.gulimall.product.vo.Catalog2Vo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,6 +68,32 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         System.out.println("调用了 getLevel1Categorys  查询了数据库........【一级分类】");
         return baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid",0));
 //        return null;
+    }
+    /**
+     * 查询出父ID为 parent_cid的List集合
+     */
+    private List<CategoryEntity> getParent_cid(List<CategoryEntity> selectList, Long parent_cid) {
+        return selectList.stream().filter(item -> item.getParentCid() == parent_cid)
+                .collect(Collectors.toList());
+        //return baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", level.getCatId()));
+    }
+
+    @Override
+    public Map<String, List<Catalog2Vo>> getCatalogJson() {
+        // 一次性获取所有 数据
+        List<CategoryEntity> selectList = baseMapper.selectList(null);
+        System.out.println("调用了 getCatalogJson  查询了数据库........【三级分类】");
+        // 1）、所有1级分类
+        List<CategoryEntity> level1Categorys = getParent_cid(selectList, 0L);
+        level1Categorys.forEach(item -> System.out.println(item));
+        // 2) 封装数据
+        Map<String,List<Catalog2Vo>> collect = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString() , level1 ->{
+
+        }));
+//        }return lev ));
+//        return collect;
+        return null;
+
     }
 
     List<CategoryEntity>  getChildrens(CategoryEntity root, List<CategoryEntity> all){
