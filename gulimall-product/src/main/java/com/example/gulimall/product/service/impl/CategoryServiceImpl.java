@@ -83,11 +83,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         // 一次性获取所有 数据
         List<CategoryEntity> selectList = baseMapper.selectList(null);
         System.out.println("调用了 getCatalogJson  查询了数据库........【三级分类】");
-        // 1）、所有1级分类
+        // 1）、所有1级分类 selectList 一级目录
         List<CategoryEntity> level1Categorys = getParent_cid(selectList, 0L);
         level1Categorys.forEach(item -> System.out.println(item));
         // 2) 封装数据
         Map<String,List<Catalog2Vo>> collect = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString() , level1 ->{
+            List<CategoryEntity> category2EntityList = getParent_cid(selectList,level1.getCatId());
+            List<>
+
 
         }));
 //        }return lev ));
