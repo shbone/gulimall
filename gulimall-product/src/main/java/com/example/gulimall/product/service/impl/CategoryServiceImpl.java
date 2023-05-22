@@ -1,7 +1,13 @@
 package com.example.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.example.gulimall.product.vo.Catalog2Vo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +27,8 @@ import com.example.gulimall.product.service.CategoryService;
 @Slf4j
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
-
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -80,35 +87,51 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public Map<String, List<Catalog2Vo>> getCatalogJson() {
-        // 一次性获取所有 数据
-        List<CategoryEntity> selectList = baseMapper.selectList(null);
-        System.out.println("调用了 getCatalogJson  查询了数据库........【三级分类】");
-        // 1）、所有1级分类 selectList 一级目录
-        List<CategoryEntity> level1Categorys = getParent_cid(selectList, 0L);
+        String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
+        if(StringUtils.isEmpty(catalogJSON)){
+            Map<String, List<Catalog2Vo>> catalogJSONFromDb = getCatalogJsonFromDb();
+            String s = JSON.toJSONString(catalogJSONFromDb);
+            log.info("从Redis缓存");
+            redisTemplate.opsForValue().set("catalogJSON",s);
+            return catalogJSONFromDb;
+        }
+        Map<String,List<Catalog2Vo>> result = JSON.parseObject(catalogJSON, new TypeReference<Map<String, List<Catalog2Vo>>>(){});
+        return result;
+    }
+
+    @Override
+    public Map<String, List<Catalog2Vo>> getCatalogJsonFromDb() {
+        synchronized (this){
+            // 一次性获取所有 数据
+            List<CategoryEntity> selectList = baseMapper.selectList(null);
+            System.out.println("调用了 getCatalogJson  查询了数据库........【三级分类】");
+            // 1）、所有1级分类 selectList 一级目录
+            List<CategoryEntity> level1Categorys = getParent_cid(selectList, 0L);
 //        level1Categorys.forEach(item -> System.out.println(item));
-        // 2) 封装数据
-        Map<String,List<Catalog2Vo>> collect = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString() , level1 ->{
+            // 2) 封装数据
+            Map<String,List<Catalog2Vo>> collect = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString() , level1 ->{
 
 //            1级分类对应的二级分类
-            List<CategoryEntity> category2EntityList=getParent_cid(selectList,level1.getCatId());
-            List<Catalog2Vo> catalog2Vos = null;
-            if (category2EntityList != null){
-                catalog2Vos = category2EntityList.stream().map(level12 -> {
-                    List<CategoryEntity>  catalog3Vos = getParent_cid(selectList,level12.getCatId());
-                    List<Catalog2Vo.Catalog3Vo> catalog3VoList = null;
-                    if (catalog3Vos !=null){
-                        catalog3VoList = catalog3Vos.stream().map(level13-> new Catalog2Vo.Catalog3Vo(level12.getCatId().toString(),level13.getCatId().toString(),level13.getName())).collect(Collectors.toList());
-                    }
-                    return new Catalog2Vo(level1.getCatId().toString(),catalog3VoList,level12.getName(),level12.getCatId().toString());
-                }).collect(Collectors.toList());
+                List<CategoryEntity> category2EntityList=getParent_cid(selectList,level1.getCatId());
+                List<Catalog2Vo> catalog2Vos = null;
+                if (category2EntityList != null){
+                    catalog2Vos = category2EntityList.stream().map(level12 -> {
+                        List<CategoryEntity>  catalog3Vos = getParent_cid(selectList,level12.getCatId());
+                        List<Catalog2Vo.Catalog3Vo> catalog3VoList = null;
+                        if (catalog3Vos !=null){
+                            catalog3VoList = catalog3Vos.stream().map(level13-> new Catalog2Vo.Catalog3Vo(level12.getCatId().toString(),level13.getCatId().toString(),level13.getName())).collect(Collectors.toList());
+                        }
+                        return new Catalog2Vo(level1.getCatId().toString(),catalog3VoList,level12.getName(),level12.getCatId().toString());
+                    }).collect(Collectors.toList());
 
-            }
-            return catalog2Vos;
+                }
+                return catalog2Vos;
 
-        }));
-        log.info("collect:"+ collect);
-        return collect;
-//        return null;
+            }));
+            log.info("collect:"+ collect);
+            return collect;
+        }
+
 
     }
 

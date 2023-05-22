@@ -51,3 +51,8 @@ IPage<T> page(IPage<T> page, Wrapper<T> queryWrapper);
 1. 引用data-redis-starter
 2. yml简单配置host等信息
 3. springboot自动配置好的stringredistemplate来操作redis
+## 2023-05-22
+### 解决Redis 三个问题
+1. 空结果缓存：缓存穿透
+2. 设置过期时间：解决缓存雪崩
+3. 加锁，解决缓存击穿
